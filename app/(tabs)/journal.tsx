@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -25,11 +26,11 @@ import { spacing, borderRadius } from '@/theme/spacing';
 import { formatDate } from '@/utils/dateHelpers';
 
 const MOODS = [
-  { emoji: '😊', label: 'Good' },
-  { emoji: '😐', label: 'Stable' },
-  { emoji: '😢', label: 'Low' },
-  { emoji: '😷', label: 'Sick' },
-  { emoji: '😠', label: 'Agitated' },
+  { key: 'good', label: 'Good' },
+  { key: 'stable', label: 'Stable' },
+  { key: 'low', label: 'Low' },
+  { key: 'sick', label: 'Sick' },
+  { key: 'agitated', label: 'Agitated' },
 ];
 
 export default function JournalScreen() {
@@ -87,8 +88,8 @@ export default function JournalScreen() {
 
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
         {/* Log a New Observation */}
-        <Card variant="elevated" padding="lg" style={styles.formCard}>
-          <Text variant="h4" style={styles.sectionTitle}>✍ Log Daily Update</Text>
+          <Card variant="elevated" padding="lg" style={styles.formCard}>
+          <Text variant="h4" style={styles.sectionTitle}>Log Daily Update</Text>
           <Input
             placeholder="Write daily recovery notes, symptoms, or medication responses..."
             value={content}
@@ -103,15 +104,14 @@ export default function JournalScreen() {
           <View style={styles.moodRow}>
             {MOODS.map((mood) => (
               <TouchableOpacity
-                key={mood.emoji}
-                onPress={() => setSelectedMood(selectedMood === mood.emoji ? null : mood.emoji)}
+                key={mood.key}
+                onPress={() => setSelectedMood(selectedMood === mood.key ? null : mood.key)}
                 style={[
                   styles.moodButton,
-                  selectedMood === mood.emoji && styles.moodButtonSelected,
+                  selectedMood === mood.key && styles.moodButtonSelected,
                 ]}
               >
-                <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-                <Text variant="tiny" color={selectedMood === mood.emoji ? colors.primary : colors.textSecondary}>
+                <Text variant="tiny" color={selectedMood === mood.key ? colors.primary : colors.textSecondary}>
                   {mood.label}
                 </Text>
               </TouchableOpacity>
@@ -130,8 +130,8 @@ export default function JournalScreen() {
         </Card>
 
         {/* Care Timeline */}
-        <Text variant="labelLarge" color={colors.textSecondary} style={styles.timelineTitle}>
-          📋 Care Timeline
+          <Text variant="labelLarge" color={colors.textSecondary} style={styles.timelineTitle}>
+          Care Timeline
         </Text>
 
         {loading ? (
@@ -150,9 +150,10 @@ export default function JournalScreen() {
             <Card key={entry.id} variant="outlined" padding="lg" style={styles.timelineCard}>
               <View style={styles.entryHeader}>
                 <View style={styles.authorRow}>
-                  <Text variant="bodySemiBold" color={colors.primary}>
-                    👤 {authorName}
-                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                    <MaterialCommunityIcons name="account-outline" size={16} color={colors.primary} />
+                    <Text variant="bodySemiBold" color={colors.primary}>{authorName}</Text>
+                  </View>
                   {entry.mood && (
                     <View style={styles.entryMood}>
                       <Text style={styles.entryMoodText}>{entry.mood} Daily State</Text>
@@ -171,7 +172,7 @@ export default function JournalScreen() {
               <Divider />
               
               <Text variant="caption" color={colors.textTertiary}>
-                🕒 Posted on {formatDate(entry.created_at, 'MMM d, yyyy h:mm a')}
+                Posted on {formatDate(entry.created_at, 'MMM d, yyyy h:mm a')}
               </Text>
             </Card>
           ))

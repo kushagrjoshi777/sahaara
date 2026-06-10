@@ -7,6 +7,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -82,13 +83,16 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <Text variant="h2" color={colors.textSecondary}>{greeting},</Text>
           <Text variant="h1" color={colors.primary} style={styles.userName}>
-            {userName} 👋
+            {userName}
           </Text>
           {selectedPatient ? (
             <View style={styles.patientBadge}>
-              <Text variant="bodyMedium" color={colors.primaryDark}>
-                ❤️ caring for: <Text variant="bodySemiBold" color={colors.primary}>{selectedPatient.name}</Text>
-              </Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                <MaterialCommunityIcons name="heart-outline" size={16} color={colors.primaryDark} />
+                <Text variant="bodyMedium" color={colors.primaryDark}>
+                  caring for: <Text variant="bodySemiBold" color={colors.primary}>{selectedPatient.name}</Text>
+                </Text>
+              </View>
             </View>
           ) : (
             <Text variant="body" color={colors.textTertiary}>No patient selected. Go to Profile to select/add.</Text>
@@ -98,7 +102,10 @@ export default function HomeScreen() {
         {/* 1. Upcoming Medication Card */}
         <Card variant="elevated" padding="lg" style={styles.card}>
           <View style={styles.cardHeader}>
-            <Text variant="h3">💊 Next Medication</Text>
+            <View style={styles.cardHeaderWithIcon}>
+              <MaterialCommunityIcons name="pill" size={20} color={colors.primary} />
+              <Text variant="h3" style={{ marginLeft: spacing.sm }}>Next Medication</Text>
+            </View>
           </View>
           {nextMedication ? (
             <View style={styles.medContent}>
@@ -112,7 +119,7 @@ export default function HomeScreen() {
                   Dosage: {nextMedication.dosage || '1 tab'} | {nextMedication.frequency}
                 </Text>
                 <Text variant="captionMedium" color={colors.primary} style={{ marginTop: 4 }}>
-                  🕒 Scheduled: Morning {nextMedication.reminder_times ? nextMedication.reminder_times[0] : '08:00 AM'}
+                  Scheduled: Morning {nextMedication.reminder_times ? nextMedication.reminder_times[0] : '08:00 AM'}
                 </Text>
               </TouchableOpacity>
               <Button
@@ -139,8 +146,11 @@ export default function HomeScreen() {
 
         {/* 2. Upcoming Appointment Card */}
         <Card variant="elevated" padding="lg" style={styles.card}>
-          <View style={styles.cardHeader}>
-            <Text variant="h3">📅 Next Appointment</Text>
+            <View style={styles.cardHeader}>
+            <View style={styles.cardHeaderWithIcon}>
+              <MaterialCommunityIcons name="calendar-month" size={20} color={colors.primary} />
+              <Text variant="h3" style={{ marginLeft: spacing.sm }}>Next Appointment</Text>
+            </View>
           </View>
           {nextAppointment ? (
             <TouchableOpacity
@@ -148,15 +158,15 @@ export default function HomeScreen() {
               activeOpacity={0.7}
             >
               <Text variant="h4">{nextAppointment.title}</Text>
-              <Text variant="body" color={colors.textSecondary} style={{ marginTop: 2 }}>
-                👨‍⚕️ {nextAppointment.doctor_name || 'General Practitioner'}
+                <Text variant="body" color={colors.textSecondary} style={{ marginTop: 2 }}>
+                {nextAppointment.doctor_name || 'General Practitioner'}
               </Text>
               <Text variant="bodyMedium" color={colors.primary} style={{ marginTop: 4 }}>
-                🕒 {formatDate(nextAppointment.date, 'EEEE, MMM d')} at {formatTime(nextAppointment.start_time)}
+                {formatDate(nextAppointment.date, 'EEEE, MMM d')} at {formatTime(nextAppointment.start_time)}
               </Text>
               {nextAppointment.location && (
                 <Text variant="caption" color={colors.textSecondary} style={{ marginTop: 4 }}>
-                  📍 {nextAppointment.location}
+                  {nextAppointment.location}
                 </Text>
               )}
             </TouchableOpacity>
@@ -175,13 +185,16 @@ export default function HomeScreen() {
         </Card>
 
         {/* 3. Family Care Checklist Card */}
-        <Card variant="elevated" padding="lg" style={styles.card}>
-          <TouchableOpacity
+          <Card variant="elevated" padding="lg" style={styles.card}>
+            <TouchableOpacity
             onPress={() => router.push('/(tabs)/tasks')}
             activeOpacity={0.7}
             style={styles.cardHeader}
           >
-            <Text variant="h3">✅ Family Tasks ➔</Text>
+            <View style={styles.cardHeaderWithIcon}>
+              <MaterialCommunityIcons name="check-circle-outline" size={20} color={colors.primary} />
+              <Text variant="h3" style={{ marginLeft: spacing.sm }}>Family Tasks</Text>
+            </View>
           </TouchableOpacity>
           
           {/* Quick Add Task */}
@@ -219,7 +232,11 @@ export default function HomeScreen() {
                   style={styles.taskTouch}
                 >
                   <Text style={styles.taskCheckbox}>
-                    {task.completed ? '✅' : '⬜'}
+                    <MaterialCommunityIcons
+                      name={task.completed ? 'checkbox-marked' : 'checkbox-blank-outline'}
+                      size={18}
+                      color={task.completed ? colors.primary : colors.textSecondary}
+                    />
                   </Text>
                   <Text
                     variant="body"
@@ -232,7 +249,7 @@ export default function HomeScreen() {
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => deleteTask(task.id)}>
-                  <Text style={styles.deleteTask}>❌</Text>
+                  <MaterialCommunityIcons name="trash-can-outline" size={18} color={colors.textTertiary} />
                 </TouchableOpacity>
               </View>
             ))
@@ -242,7 +259,10 @@ export default function HomeScreen() {
         {/* 4. Recent Journal Entry Card */}
         <Card variant="elevated" padding="lg" style={styles.card}>
           <View style={styles.cardHeader}>
-            <Text variant="h3">📝 Recent Journal Entry</Text>
+            <View style={styles.cardHeaderWithIcon}>
+              <MaterialCommunityIcons name="file-document-outline" size={20} color={colors.primary} />
+              <Text variant="h3" style={{ marginLeft: spacing.sm }}>Recent Journal Entry</Text>
+            </View>
           </View>
           {recentEntry ? (
             <TouchableOpacity onPress={() => router.push('/(tabs)/journal')} activeOpacity={0.7}>
@@ -260,7 +280,7 @@ export default function HomeScreen() {
                 "{recentEntry.content}"
               </Text>
               <Text variant="caption" color={colors.textTertiary} style={{ marginTop: spacing.sm }}>
-                🕒 Logged on {formatDate(recentEntry.created_at, 'MMM d, yyyy h:mm a')}
+                Logged on {formatDate(recentEntry.created_at, 'MMM d, yyyy h:mm a')}
               </Text>
             </TouchableOpacity>
           ) : (
@@ -309,6 +329,10 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     marginBottom: spacing.md,
+  },
+  cardHeaderWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   medContent: {
     flexDirection: 'row',

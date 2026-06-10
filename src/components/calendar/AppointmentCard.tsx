@@ -5,6 +5,7 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from '../ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { colors } from '../../theme/colors';
 import { spacing, borderRadius, shadow } from '../../theme/spacing';
 import { Appointment } from '../../types/database';
@@ -39,15 +40,17 @@ export function AppointmentCard({ appointment, onPress, compact = false }: Appoi
           <>
             {appointment.doctor_name && (
               <View style={styles.row}>
-                <Text variant="caption" color={colors.textSecondary}>
-                  👨‍⚕️  {appointment.doctor_name}
+                <MaterialCommunityIcons name="stethoscope" size={14} color={colors.textSecondary} />
+                <Text variant="caption" color={colors.textSecondary} style={{ marginLeft: spacing.sm }}>
+                  {appointment.doctor_name}
                 </Text>
               </View>
             )}
             {appointment.location && (
               <View style={styles.row}>
-                <Text variant="caption" color={colors.textSecondary}>
-                  📍  {appointment.location}
+                <MaterialCommunityIcons name="map-marker-outline" size={14} color={colors.textSecondary} />
+                <Text variant="caption" color={colors.textSecondary} style={{ marginLeft: spacing.sm }}>
+                  {appointment.location}
                 </Text>
               </View>
             )}

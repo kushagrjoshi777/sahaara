@@ -110,14 +110,14 @@ export default function AppointmentDetailScreen() {
           <View style={styles.infoSection}>
             <Text variant="label" color={colors.textSecondary}>Date</Text>
             <Text variant="bodyLarge" style={styles.infoValue}>
-              📅 {formatDate(appointment.date, 'EEEE, MMMM d, yyyy')}
+              {formatDate(appointment.date, 'EEEE, MMMM d, yyyy')}
             </Text>
           </View>
 
           <View style={styles.infoSection}>
             <Text variant="label" color={colors.textSecondary}>Time</Text>
             <Text variant="bodyLarge" style={styles.infoValue}>
-              ⏰ {formatTime(appointment.start_time)}
+              {formatTime(appointment.start_time)}
               {appointment.end_time ? ` - ${formatTime(appointment.end_time)}` : ''}
             </Text>
           </View>
@@ -126,7 +126,7 @@ export default function AppointmentDetailScreen() {
             <View style={styles.infoSection}>
               <Text variant="label" color={colors.textSecondary}>Doctor</Text>
               <Text variant="bodyLarge" style={styles.infoValue}>
-                👨‍⚕️ {appointment.doctor_name}
+                {appointment.doctor_name}
               </Text>
             </View>
           )}
@@ -135,7 +135,7 @@ export default function AppointmentDetailScreen() {
             <View style={styles.infoSection}>
               <Text variant="label" color={colors.textSecondary}>Location</Text>
               <Text variant="bodyLarge" style={styles.infoValue}>
-                📍 {appointment.location}
+                {appointment.location}
               </Text>
             </View>
           )}

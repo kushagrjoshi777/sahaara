@@ -6,22 +6,26 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '../../src/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { colors } from '../../src/theme/colors';
 import { spacing, shadow } from '../../src/theme/spacing';
 import { fontFamily, fontSize } from '../../src/theme/typography';
 
 function TabIcon({ name, focused }: { name: string; focused: boolean }) {
   const icons: Record<string, string> = {
-    Home: '🏠',
-    Tasks: '✅',
-    Care: '📅',
-    Journal: '📝',
-    Profile: '👤',
+    Home: 'home-outline',
+    Tasks: 'check-circle-outline',
+    Care: 'calendar-month-outline',
+    Journal: 'book-open-page-variant',
+    Profile: 'account-outline',
   };
+
+  const iconName = icons[name] || 'circle';
+  const color = focused ? colors.primary : colors.textTertiary;
 
   return (
     <View style={[styles.iconContainer, focused && styles.iconFocused]}>
-      <Text style={styles.icon}>{icons[name] || '●'}</Text>
+      <MaterialCommunityIcons name={iconName as any} size={22} color={color} />
     </View>
   );
 }

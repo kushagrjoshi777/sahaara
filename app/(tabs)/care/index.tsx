@@ -7,6 +7,7 @@ import { View, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Text } from '../../../src/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Card } from '../../../src/components/ui/Card';
 import { Button } from '../../../src/components/ui/Button';
 import { CalendarHeader } from '../../../src/components/calendar/CalendarHeader';
@@ -93,27 +94,35 @@ export default function CalendarScreen() {
 
       {/* Navigation Sub-Tabs */}
       <View style={styles.tabSelectorBg}>
-        <TouchableOpacity
+          <TouchableOpacity
           style={[styles.tabButton, activeTab === 'appointments' && styles.tabButtonActive]}
           onPress={() => setActiveTab('appointments')}
         >
-          <Text
-            variant="bodyMedium"
-            color={activeTab === 'appointments' ? colors.primaryDark : colors.textSecondary}
-          >
-            📅 Appointments
-          </Text>
+          <View style={styles.tabWithIcon}>
+            <MaterialCommunityIcons name="calendar-month-outline" size={18} color={activeTab === 'appointments' ? colors.primaryDark : colors.textSecondary} />
+            <Text
+              variant="bodyMedium"
+              color={activeTab === 'appointments' ? colors.primaryDark : colors.textSecondary}
+              style={{ marginLeft: spacing.sm }}
+            >
+              Appointments
+            </Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.tabButton, activeTab === 'medications' && styles.tabButtonActive]}
           onPress={() => setActiveTab('medications')}
         >
-          <Text
-            variant="bodyMedium"
-            color={activeTab === 'medications' ? colors.primaryDark : colors.textSecondary}
-          >
-            💊 Medications
-          </Text>
+          <View style={styles.tabWithIcon}>
+            <MaterialCommunityIcons name="pill" size={18} color={activeTab === 'medications' ? colors.primaryDark : colors.textSecondary} />
+            <Text
+              variant="bodyMedium"
+              color={activeTab === 'medications' ? colors.primaryDark : colors.textSecondary}
+              style={{ marginLeft: spacing.sm }}
+            >
+              Medications
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -186,7 +195,7 @@ export default function CalendarScreen() {
               <EmptyState
                 title="No Medications Added"
                 message="Add daily prescriptions or over-the-counter medication schedules for your loved one."
-                icon={<Text style={{ fontSize: 40 }}>💊</Text>}
+                icon={<MaterialCommunityIcons name="pill" size={40} color={colors.primary} />}
                 action={
                   <Button
                     title="+ Add Medication"
@@ -216,11 +225,11 @@ export default function CalendarScreen() {
                   <View style={styles.medCardFooter}>
                     <View style={{ flex: 1 }}>
                       <Text variant="captionMedium" color={colors.primary}>
-                        🕒 Reminders: {med.reminder_times ? med.reminder_times.map(formatTime).join(', ') : 'None'}
+                        Reminders: {med.reminder_times ? med.reminder_times.map(formatTime).join(', ') : 'None'}
                       </Text>
                       {med.instructions && (
                         <Text variant="tiny" color={colors.textTertiary} style={{ marginTop: 4 }}>
-                          📝 Instructions: {med.instructions}
+                          Instructions: {med.instructions}
                         </Text>
                       )}
                     </View>
@@ -255,7 +264,7 @@ export default function CalendarScreen() {
                 return (
                   <Card key={log.id} variant="outlined" padding="md" style={styles.logItem}>
                     <View style={styles.logRow}>
-                      <Text style={{ fontSize: 18, marginRight: spacing.md }}>✅</Text>
+                      <MaterialCommunityIcons name="checkbox-marked" size={18} color={colors.primary} style={{ marginRight: spacing.md }} />
                       <View style={{ flex: 1 }}>
                         <Text variant="bodyMedium">
                           {medName} {medDosage ? `(${medDosage})` : ''} taken
@@ -311,6 +320,10 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     alignItems: 'center',
     borderRadius: borderRadius.md,
+  },
+  tabWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tabButtonActive: {
     backgroundColor: colors.surface,

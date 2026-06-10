@@ -14,6 +14,7 @@ import {
 import { Link, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '../../src/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Input } from '../../src/components/ui/Input';
 import { Button } from '../../src/components/ui/Button';
 import { useAuth } from '../../src/context/AuthContext';
@@ -65,7 +66,7 @@ export default function SignupScreen() {
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <View style={styles.successContainer}>
           <View style={styles.successIcon}>
-            <Text variant="h1" align="center">✅</Text>
+            <MaterialCommunityIcons name="check-circle-outline" size={64} color={colors.primary} />
           </View>
           <Text variant="h2" align="center" style={styles.successTitle}>
             Account Created!

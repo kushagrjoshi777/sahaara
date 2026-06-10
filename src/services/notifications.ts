@@ -82,7 +82,7 @@ export const notificationService = {
     try {
       const identifier = await Notifications.scheduleNotificationAsync({
         content: {
-          title: '📅 Appointment Reminder',
+          title: 'Appointment Reminder',
           body,
           data: { type: 'appointment', appointmentId },
         },
@@ -115,7 +115,7 @@ export const notificationService = {
     try {
       const identifier = await Notifications.scheduleNotificationAsync({
         content: {
-          title: '💊 Medication Reminder',
+          title: 'Medication Reminder',
           body: `It is time to take ${medicineName}${dosageText}.`,
           data: { type: 'medication', medicationId },
         },

@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '@/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -67,9 +68,10 @@ export default function TasksScreen() {
         </View>
         {selectedPatient && (
           <View style={styles.patientBadge}>
-            <Text variant="tiny" color={colors.primary}>
-              ❤️ {selectedPatient.name}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+              <MaterialCommunityIcons name="heart-outline" size={14} color={colors.primary} />
+              <Text variant="tiny" color={colors.primary}>{selectedPatient.name}</Text>
+            </View>
           </View>
         )}
       </View>
@@ -102,8 +104,8 @@ export default function TasksScreen() {
               </View>
               <Text variant="caption" color={colors.textSecondary} style={{ marginTop: spacing.sm }}>
                 {completionRate === 1 
-                  ? '🌸 Fantastic! All tasks completed today.' 
-                  : '✨ Supporting your loved one step by step.'}
+                  ? 'Fantastic! All tasks completed today.' 
+                  : 'Supporting your loved one step by step.'}
               </Text>
             </Card>
           )}
@@ -169,7 +171,7 @@ export default function TasksScreen() {
                   ? 'Enjoy your peaceful day, or add a task above.'
                   : 'Tasks you need to complete will show up here.'
               }
-              icon={<Text style={{ fontSize: 40 }}>🌸</Text>}
+              icon={<MaterialCommunityIcons name="flower-tulip-outline" size={40} color={colors.accent} />}
             />
           ) : (
             filteredTasks.map((task) => (
@@ -194,7 +196,7 @@ export default function TasksScreen() {
                       ]}
                     >
                       {task.completed && (
-                        <Text style={styles.checkIcon}>✓</Text>
+                        <MaterialCommunityIcons name="check" size={14} color={colors.white} />
                       )}
                     </View>
                     <Text
@@ -213,7 +215,7 @@ export default function TasksScreen() {
                     style={styles.deleteBtnContainer}
                     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                   >
-                    <Text style={styles.deleteIcon}>✕</Text>
+                    <MaterialCommunityIcons name="close" size={16} color={colors.textTertiary} />
                   </TouchableOpacity>
                 </View>
               </Card>

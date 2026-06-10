@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { Text } from '@/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { useMedications } from '@/hooks/useMedications';
@@ -190,11 +191,12 @@ export default function NewMedicationScreen() {
           <View style={styles.timeChipsContainer}>
             {reminderTimes.map((time, idx) => (
               <View key={idx} style={styles.timeChip}>
-                <Text variant="caption" color={colors.primaryDark}>
-                  🕒 {time}
+                <MaterialCommunityIcons name="clock-outline" size={14} color={colors.primaryDark} />
+                <Text variant="caption" color={colors.primaryDark} style={{ marginLeft: spacing.sm }}>
+                  {time}
                 </Text>
-                <TouchableOpacity onPress={() => handleRemoveReminderTime(idx)}>
-                  <Text style={styles.removeTimeIcon}> ✕</Text>
+                <TouchableOpacity onPress={() => handleRemoveReminderTime(idx)} style={{ marginLeft: spacing.sm }}>
+                  <MaterialCommunityIcons name="close" size={14} color={colors.primaryDark} />
                 </TouchableOpacity>
               </View>
             ))}

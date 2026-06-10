@@ -1,55 +1,14 @@
-// ============================================
-// Sahaara Design System — Typography
-// ============================================
-// Large, accessible typography scale.
-// Minimum body size of 16px for readability.
-// Designed for older adults and non-technical users.
-
+// Centralized typography tokens
+import { tokens } from './tokens';
 import { TextStyle } from 'react-native';
 
-export const fontFamily = {
-  regular: 'Inter_400Regular',
-  medium: 'Inter_500Medium',
-  semiBold: 'Inter_600SemiBold',
-  bold: 'Inter_700Bold',
-} as const;
-
-export const fontSize = {
-  xs: 12,
-  sm: 14,
-  base: 16,
-  md: 17,
-  lg: 18,
-  xl: 20,
-  '2xl': 24,
-  '3xl': 28,
-  '4xl': 32,
-  '5xl': 40,
-} as const;
-
-export const lineHeight = {
-  xs: 16,
-  sm: 20,
-  base: 24,
-  md: 26,
-  lg: 28,
-  xl: 30,
-  '2xl': 32,
-  '3xl': 36,
-  '4xl': 40,
-  '5xl': 48,
-} as const;
-
-export const letterSpacing = {
-  tight: -0.5,
-  normal: 0,
-  wide: 0.3,
-  wider: 0.5,
-} as const;
+export const fontFamily = tokens.typography.fontFamily;
+export const fontSize = tokens.typography.fontSize;
+export const lineHeight = tokens.typography.lineHeight;
+export const letterSpacing = tokens.typography.letterSpacing;
 
 // Pre-built text styles for consistent usage
 export const textStyles: Record<string, TextStyle> = {
-  // Headings
   h1: {
     fontFamily: fontFamily.bold,
     fontSize: fontSize['4xl'],
@@ -73,7 +32,6 @@ export const textStyles: Record<string, TextStyle> = {
     lineHeight: lineHeight.lg,
   },
 
-  // Body
   bodyLarge: {
     fontFamily: fontFamily.regular,
     fontSize: fontSize.lg,
@@ -95,7 +53,6 @@ export const textStyles: Record<string, TextStyle> = {
     lineHeight: lineHeight.base,
   },
 
-  // Small
   caption: {
     fontFamily: fontFamily.regular,
     fontSize: fontSize.sm,
@@ -112,7 +69,6 @@ export const textStyles: Record<string, TextStyle> = {
     lineHeight: lineHeight.xs,
   },
 
-  // Labels
   label: {
     fontFamily: fontFamily.medium,
     fontSize: fontSize.sm,
@@ -126,7 +82,6 @@ export const textStyles: Record<string, TextStyle> = {
     letterSpacing: letterSpacing.wide,
   },
 
-  // Buttons
   button: {
     fontFamily: fontFamily.semiBold,
     fontSize: fontSize.base,
@@ -140,7 +95,6 @@ export const textStyles: Record<string, TextStyle> = {
     letterSpacing: letterSpacing.wide,
   },
 
-  // Numbers (for timestamps, counters)
   number: {
     fontFamily: fontFamily.semiBold,
     fontSize: fontSize['3xl'],

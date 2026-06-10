@@ -15,6 +15,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Text } from '@/components/ui/Text';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -216,9 +217,9 @@ export default function PatientDetailScreen() {
                     <Text variant="caption" color={colors.primaryDark}>
                       {c}
                     </Text>
-                    <TouchableOpacity onPress={() => handleRemoveCondition(index)}>
-                      <Text style={styles.removeTagIcon}> ✕</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleRemoveCondition(index)}>
+                          <MaterialCommunityIcons name="close" size={12} color={colors.primaryDark} />
+                        </TouchableOpacity>
                   </View>
                 ))
               )}
@@ -238,9 +239,10 @@ export default function PatientDetailScreen() {
                   <Text variant="bodyMedium">
                     {contact.name} ({contact.relationship})
                   </Text>
-                  <Text variant="caption" color={colors.textSecondary}>
-                    📞 {contact.phone}
-                  </Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.sm }}>
+                    <MaterialCommunityIcons name="phone-outline" size={14} color={colors.textSecondary} />
+                    <Text variant="caption" color={colors.textSecondary}>{contact.phone}</Text>
+                  </View>
                 </View>
                 <TouchableOpacity onPress={() => handleRemoveContact(index)} style={styles.removeContactBtn}>
                   <Text variant="caption" color={colors.error}>Remove</Text>
