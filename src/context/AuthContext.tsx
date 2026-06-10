@@ -7,7 +7,8 @@ import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
-import * as AuthSession from 'expo-auth-session';
+import { makeRedirectUri } from 'expo-auth-session';
+import * as QueryParams from 'expo-auth-session/build/QueryParams';
 import { Session, User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase, IS_MOCK_MODE } from '../services/supabase';
 
@@ -132,6 +133,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     );
 
+    // Handle deep link for OAuth redirect (native only)
+    if (Platform.OS !== 'web') {
+      const subscription2 = Linking.addEventListener('url', ({ url }) => {
+        const { params } = QueryParams.getQueryParams(url);
+        const { access_token, refresh_token } = params;
+
+        if (access_token) {
+          supabase.auth.setSession({
+            access_token,
+            refresh_token: refresh_token || '',
+          }).catch(console.error);
+        }
+      });
+
+      return () => {
+        subscription.unsubscribe();
+        subscription2.remove();
+      };
+    }
+
     return () => subscription.unsubscribe();
   }, []);
 
@@ -199,13 +220,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      // Ensure any in-progress browser auth session is completed (Expo)
-      WebBrowser.maybeCompleteAuthSession();
+      // Ensure any in-progress auth session is completed (required for web)
+      if (Platform.OS === 'web') {
+        WebBrowser.maybeCompleteAuthSession();
+      }
 
-      // Build an Expo-friendly redirect URI (uses proxy in managed apps)
-      const redirectUrl = AuthSession.makeRedirectUri({ useProxy: true, path: '/(tabs)' });
+      // Generate redirect URI for deep linking
+      const redirectUrl = makeRedirectUri();
+      console.log('[AuthContext] signInWithGoogle redirectUrl', redirectUrl);
 
-      // Request the Supabase OAuth URL but don't let it redirect the browser automatically
+      // Get OAuth URL from Supabase (do not redirect automatically)
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -213,21 +237,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           skipBrowserRedirect: true,
         },
       });
+      console.log('[AuthContext] signInWithOAuth response', { data, error });
+
       if (error) return { error: error.message };
+      if (!data?.url) return { error: 'No OAuth URL returned' };
+      console.log('[AuthContext] signInWithGoogle OAuth URL', data.url);
 
-      // Open the OAuth URL in the system browser / in-app browser
-      // `startAsync` will return once the browser redirects back to the app
-      await AuthSession.startAsync({ authUrl: (data as any)?.url });
+      // Open OAuth URL in browser
+      const result = await WebBrowser.openAuthSessionAsync(data.url, redirectUrl);
+      console.log('[AuthContext] openAuthSessionAsync result', result);
 
-      // After redirect, tell Supabase to parse the URL and return the session
-      const { data: sessionData, error: sessionError } = await supabase.auth.getSessionFromUrl({ storeSession: true } as any);
-      if (sessionError) return { error: sessionError.message };
+      // Handle OAuth result
+      if (result.type === 'success' && result.url) {
+        console.log('[AuthContext] openAuthSessionAsync returned url', result.url);
 
-      setSession((sessionData as any)?.session ?? null);
-      setUser((sessionData as any)?.session?.user ?? null);
+        // Extract tokens from redirect URL
+        const { params, errorCode } = QueryParams.getQueryParams(result.url);
+        console.log('[AuthContext] parsed OAuth redirect params', params, 'errorCode', errorCode);
 
-      return { error: null };
+        if (errorCode) {
+          console.error('[AuthContext] signInWithGoogle OAuth errorCode', errorCode);
+          return { error: errorCode };
+        }
+
+        const { access_token, refresh_token } = params;
+        console.log('[AuthContext] signInWithGoogle tokens', { access_token, refresh_token });
+
+        if (!access_token) {
+          return { error: 'No access token received' };
+        }
+
+        // Manually set session with tokens
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token,
+          refresh_token: refresh_token || '',
+        });
+        console.log('[AuthContext] supabase.auth.setSession error', sessionError);
+
+        const currentSession = await supabase.auth.getSession();
+        console.log('[AuthContext] supabase.auth.getSession after setSession', currentSession);
+
+        if (sessionError) {
+          return { error: sessionError.message };
+        }
+
+        return { error: null };
+      } else if (result.type === 'cancel') {
+        return { error: 'Sign in cancelled' };
+      } else if (result.type === 'dismiss') {
+        return { error: 'Sign in dismissed' };
+      }
+
+      return { error: 'Unknown error during sign in' };
     } catch (e: any) {
+      console.error('[AuthContext] signInWithGoogle catch', e);
       return { error: e.message || 'Google Sign-In failed' };
     }
   };
