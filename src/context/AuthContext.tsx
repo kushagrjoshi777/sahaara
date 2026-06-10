@@ -5,6 +5,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
+import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
+import * as AuthSession from 'expo-auth-session';
 import { Session, User as SupabaseUser } from '@supabase/supabase-js';
 import { supabase, IS_MOCK_MODE } from '../services/supabase';
 
@@ -14,6 +17,7 @@ interface AuthContextType {
   loading: boolean;
   signUpWithEmail: (email: string, password: string, fullName: string) => Promise<{ error: string | null }>;
   signInWithEmail: (email: string, password: string) => Promise<{ error: string | null }>;
+  signInWithGoogle: () => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -185,6 +189,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const signInWithGoogle = async (): Promise<{ error: string | null }> => {
+    if (IS_MOCK_MODE) {
+      const mockSession = createMockSession('google-user@gmail.com', 'Google User');
+      await setStoredMockSession(JSON.stringify({ currentSession: mockSession }));
+      setSession(mockSession);
+      setUser(mockSession.user);
+      return { error: null };
+    }
+
+    try {
+      // Ensure any in-progress browser auth session is completed (Expo)
+      WebBrowser.maybeCompleteAuthSession();
+
+      // Build an Expo-friendly redirect URI (uses proxy in managed apps)
+      const redirectUrl = AuthSession.makeRedirectUri({ useProxy: true, path: '/(tabs)' });
+
+      // Request the Supabase OAuth URL but don't let it redirect the browser automatically
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: redirectUrl,
+          skipBrowserRedirect: true,
+        },
+      });
+      if (error) return { error: error.message };
+
+      // Open the OAuth URL in the system browser / in-app browser
+      // `startAsync` will return once the browser redirects back to the app
+      await AuthSession.startAsync({ authUrl: (data as any)?.url });
+
+      // After redirect, tell Supabase to parse the URL and return the session
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSessionFromUrl({ storeSession: true } as any);
+      if (sessionError) return { error: sessionError.message };
+
+      setSession((sessionData as any)?.session ?? null);
+      setUser((sessionData as any)?.session?.user ?? null);
+
+      return { error: null };
+    } catch (e: any) {
+      return { error: e.message || 'Google Sign-In failed' };
+    }
+  };
+
   const signOut = async () => {
     if (IS_MOCK_MODE) {
       await removeStoredMockSession();
@@ -203,6 +250,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         loading,
         signUpWithEmail,
         signInWithEmail,
+        signInWithGoogle,
         signOut,
       }}
     >

@@ -7,45 +7,48 @@ export const tokens = {
     // Brand
     primary: '#6BA7D7', // sky blue
     primaryLight: '#A7C8E6',
-    primaryDark: '#437FB9',
-    primaryFaded: 'rgba(107,167,215,0.12)',
+    primaryDark: '#4A8DBF',
+    primaryFaded: 'rgba(107,167,215,0.10)',
 
     accent: '#93C572', // pistachio green
     accentLight: '#B5D89E',
     accentDark: '#6DA34D',
     accentFaded: 'rgba(147,197,114,0.12)',
 
-    // Backgrounds (warm beige base)
-    background: '#FAF9F6',
-    surface: '#FFFFFF',
-    surfaceElevated: '#F5F3F0',
-    surfacePressed: '#EDEBE7',
+    // Backgrounds (warm cream base — per design spec)
+    background: '#F6F1E8',
+    surface: '#FFFDF8',
+    surfaceElevated: '#F0EBE1',
+    surfacePressed: '#E8E3D9',
 
-    // Text
-    text: '#2D3142',
-    textSecondary: '#6B7280',
-    textTertiary: '#9CA3AF',
+    // Text (warm charcoal — per design spec)
+    text: '#2D3748',
+    textSecondary: '#5A6578',
+    textTertiary: '#8D95A3',
     textInverse: '#FFFFFF',
 
     // Borders
-    border: '#E8E6E1',
-    borderLight: '#F0EEEA',
+    border: '#E2DDD4',
+    borderLight: '#EDE8DF',
     borderFocus: '#6BA7D7',
 
     // Semantic
     success: '#4CAF50',
-    warning: '#FF9800',
-    error: '#EF5350',
+    successLight: 'rgba(76,175,80,0.10)',
+    warning: '#F0A53E',
+    warningLight: 'rgba(240,165,62,0.10)',
+    error: '#E85D5D',
+    errorLight: 'rgba(232,93,93,0.10)',
 
     // Utility
     white: '#FFFFFF',
     black: '#1A1A1A',
-    overlay: 'rgba(0,0,0,0.45)',
+    overlay: 'rgba(0,0,0,0.40)',
     transparent: 'transparent',
 
     // Calendar accents
     calendarToday: '#6BA7D7',
-    calendarSelected: '#437FB9',
+    calendarSelected: '#4A8DBF',
     calendarDot: '#93C572',
   },
 

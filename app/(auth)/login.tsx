@@ -23,13 +23,14 @@ import { spacing } from '../../src/theme/spacing';
 import { isValidEmail } from '../../src/utils/validation';
 
 export default function LoginScreen() {
-  const { signInWithEmail } = useAuth();
+  const { signInWithEmail, signInWithGoogle } = useAuth();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isValid = isValidEmail(email) && password.length >= 6;
@@ -133,16 +134,22 @@ export default function LoginScreen() {
             <View style={styles.dividerLine} />
           </View>
 
-          {/* Google Sign In placeholder */}
+          {/* Google Sign In */}
           <Button
             title="Continue with Google"
-            onPress={() => {
-              // Google Sign-In requires development build
-              setError('Google Sign-In requires a development build. Use email to continue.');
+            onPress={async () => {
+              setError(null);
+              setGoogleLoading(true);
+              const { error: googleError } = await signInWithGoogle();
+              if (googleError) {
+                setError(googleError);
+              }
+              setGoogleLoading(false);
             }}
             variant="outline"
             fullWidth
             size="lg"
+            loading={googleLoading}
             icon={<Text>🔵</Text>}
           />
 
