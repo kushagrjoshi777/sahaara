@@ -5,40 +5,40 @@
 export const tokens = {
   colors: {
     // Brand
-    primary: '#6BA7D7', // sky blue
-    primaryLight: '#A7C8E6',
-    primaryDark: '#4A8DBF',
-    primaryFaded: 'rgba(107,167,215,0.10)',
+    primary: '#6BA7D8',
+    primaryLight: '#A8D0F0',
+    primaryDark: '#4F8CC0',
+    primaryFaded: 'rgba(107,167,216,0.14)',
 
-    accent: '#93C572', // pistachio green
-    accentLight: '#B5D89E',
-    accentDark: '#6DA34D',
-    accentFaded: 'rgba(147,197,114,0.12)',
+    accent: '#7BBE8A',
+    accentLight: '#A7D5A8',
+    accentDark: '#5E9A66',
+    accentFaded: 'rgba(123,190,138,0.12)',
 
-    // Backgrounds (warm cream base — per design spec)
-    background: '#F6F1E8',
-    surface: '#FFFDF8',
-    surfaceElevated: '#F0EBE1',
-    surfacePressed: '#E8E3D9',
+    // Backgrounds
+    background: '#F7F3ED',
+    surface: '#FFFFFF',
+    surfaceElevated: '#F3EEE6',
+    surfacePressed: '#E8E4DD',
 
-    // Text (warm charcoal — per design spec)
-    text: '#2D3748',
-    textSecondary: '#5A6578',
-    textTertiary: '#8D95A3',
+    // Text
+    text: '#2E3A45',
+    textSecondary: '#5B6A78',
+    textTertiary: '#8A97A6',
     textInverse: '#FFFFFF',
 
     // Borders
-    border: '#E2DDD4',
-    borderLight: '#EDE8DF',
-    borderFocus: '#6BA7D7',
+    border: '#D9D7CF',
+    borderLight: '#E6E2D8',
+    borderFocus: '#6BA7D8',
 
     // Semantic
-    success: '#4CAF50',
-    successLight: 'rgba(76,175,80,0.10)',
-    warning: '#F0A53E',
-    warningLight: 'rgba(240,165,62,0.10)',
-    error: '#E85D5D',
-    errorLight: 'rgba(232,93,93,0.10)',
+    success: '#7BBE8A',
+    successLight: 'rgba(123,190,138,0.10)',
+    warning: '#E3A15F',
+    warningLight: 'rgba(227,161,95,0.10)',
+    error: '#E57373',
+    errorLight: 'rgba(229,115,115,0.10)',
 
     // Utility
     white: '#FFFFFF',
@@ -47,9 +47,9 @@ export const tokens = {
     transparent: 'transparent',
 
     // Calendar accents
-    calendarToday: '#6BA7D7',
-    calendarSelected: '#4A8DBF',
-    calendarDot: '#93C572',
+    calendarToday: '#6BA7D8',
+    calendarSelected: '#4F8CC0',
+    calendarDot: '#7BBE8A',
   },
 
   spacing: {

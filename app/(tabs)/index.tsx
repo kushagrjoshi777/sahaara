@@ -268,7 +268,7 @@ export default function HomeScreen() {
             <TouchableOpacity onPress={() => router.push('/(tabs)/journal')} activeOpacity={0.7}>
               <View style={styles.journalMeta}>
                 <Text variant="captionMedium" color={colors.primary}>
-                  👤 Caregiver Log
+                  Caregiver log
                 </Text>
                 {recentEntry.mood && (
                   <View style={styles.journalMood}>
@@ -312,6 +312,10 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: spacing.xl,
+    padding: spacing.lg,
+    borderRadius: borderRadius['2xl'],
+    backgroundColor: colors.surface,
+    ...shadow.sm,
   },
   userName: {
     marginTop: spacing.xs,

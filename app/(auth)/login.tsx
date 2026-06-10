@@ -61,8 +61,8 @@ export default function LoginScreen() {
           {/* Branding */}
           <View style={styles.branding}>
             <View style={styles.logoContainer}>
-              <Text variant="h1" color={colors.primary} align="center">
-                🤝
+              <Text variant="h2" color={colors.primary} align="center">
+                S
               </Text>
             </View>
             <Text variant="h1" align="center" style={styles.appName}>
@@ -74,7 +74,7 @@ export default function LoginScreen() {
               align="center"
               style={styles.tagline}
             >
-              Your caregiving companion
+              Care planning made calm and simple.
             </Text>
           </View>
 
@@ -150,7 +150,7 @@ export default function LoginScreen() {
             fullWidth
             size="lg"
             loading={googleLoading}
-            icon={<Text>🔵</Text>}
+            icon={<Text variant="bodyMedium">G</Text>}
           />
 
           {/* Sign up link */}

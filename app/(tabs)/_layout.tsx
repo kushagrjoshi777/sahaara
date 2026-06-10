@@ -8,7 +8,7 @@ import { View, StyleSheet } from 'react-native';
 import { Text } from '../../src/components/ui/Text';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { colors } from '../../src/theme/colors';
-import { spacing, shadow } from '../../src/theme/spacing';
+import { spacing, shadow, borderRadius } from '../../src/theme/spacing';
 import { fontFamily, fontSize } from '../../src/theme/typography';
 
 function TabIcon({ name, focused }: { name: string; focused: boolean }) {
@@ -84,11 +84,12 @@ export default function TabsLayout() {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: colors.surface,
-    borderTopWidth: 1,
-    borderTopColor: colors.borderLight,
-    height: 85,
-    paddingBottom: 20,
+    borderTopWidth: 0,
+    height: 76,
+    paddingBottom: 16,
     paddingTop: spacing.sm,
+    borderTopLeftRadius: borderRadius['2xl'],
+    borderTopRightRadius: borderRadius['2xl'],
     ...shadow.md,
   },
   tabLabel: {

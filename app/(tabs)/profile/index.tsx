@@ -15,6 +15,7 @@ import { useAuth } from '@/context/AuthContext';
 import { usePatient } from '@/context/PatientContext';
 import { colors } from '@/theme/colors';
 import { spacing, borderRadius } from '@/theme/spacing';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -77,7 +78,7 @@ export default function ProfileScreen() {
         <Card variant="elevated" padding="lg" style={styles.card}>
           <View style={styles.avatarRow}>
             <View style={styles.avatar}>
-              <Text style={{ fontSize: 24 }}>👤</Text>
+              <MaterialCommunityIcons name="account-circle-outline" size={36} color={colors.primary} />
             </View>
             <View style={styles.userInfo}>
               <Text variant="h3">{userName}</Text>

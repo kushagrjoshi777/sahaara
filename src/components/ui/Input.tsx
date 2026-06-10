@@ -116,12 +116,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius['2xl'],
     minHeight: touchTarget.min,
     paddingHorizontal: spacing.base,
   },
   focused: {
     borderWidth: 2,
+    borderColor: colors.borderFocus,
     backgroundColor: colors.white,
   },
   multiline: {

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import {
+  View,
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
@@ -32,14 +33,14 @@ interface ButtonProps {
 
 const variantStyles: Record<ButtonVariant, { bg: string; text: string; border: string }> = {
   primary: { bg: colors.primary, text: colors.white, border: colors.primary },
-  secondary: { bg: colors.accent, text: colors.white, border: colors.accent },
+  secondary: { bg: colors.primaryDark, text: colors.white, border: colors.primaryDark },
   outline: { bg: colors.transparent, text: colors.primary, border: colors.primary },
   ghost: { bg: colors.transparent, text: colors.primary, border: colors.transparent },
   danger: { bg: colors.error, text: colors.white, border: colors.error },
 };
 
 const sizeStyles: Record<ButtonSize, { height: number; px: number; textVariant: 'button' | 'buttonSmall' }> = {
-  sm: { height: 40, px: spacing.base, textVariant: 'buttonSmall' },
+  sm: { height: 44, px: spacing.base, textVariant: 'buttonSmall' },
   md: { height: touchTarget.min, px: spacing.xl, textVariant: 'button' },
   lg: { height: touchTarget.comfortable, px: spacing['2xl'], textVariant: 'button' },
 };
@@ -84,19 +85,17 @@ export function Button({
       ) : (
         <>
           {icon && iconPosition === 'left' && (
-            <>{icon}</>
+            <View style={styles.iconLeft}>{icon}</View>
           )}
           <Text
             variant={s.textVariant}
             color={v.text}
-            style={[
-              icon ? (iconPosition === 'left' ? { marginLeft: spacing.sm } : { marginRight: spacing.sm }) : undefined,
-            ]}
+            style={icon ? (iconPosition === 'left' ? styles.titleWithIcon : styles.titleWithIconRight) : undefined}
           >
             {title}
           </Text>
           {icon && iconPosition === 'right' && (
-            <>{icon}</>
+            <View style={styles.iconRight}>{icon}</View>
           )}
         </>
       )}
@@ -109,13 +108,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: borderRadius.md,
+    borderRadius: borderRadius.lg,
     borderWidth: 1.5,
+    minWidth: 72,
   },
   outlined: {
     borderWidth: 1.5,
   },
   fullWidth: {
     width: '100%',
+  },
+  iconLeft: {
+    marginRight: spacing.sm,
+  },
+  iconRight: {
+    marginLeft: spacing.sm,
+  },
+  titleWithIcon: {
+    marginLeft: spacing.xs,
+  },
+  titleWithIconRight: {
+    marginRight: spacing.xs,
   },
 });

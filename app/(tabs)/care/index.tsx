@@ -306,6 +306,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
     backgroundColor: colors.surface,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderLight,
+    ...shadow.sm,
   },
   tabSelectorBg: {
     flexDirection: 'row',
@@ -313,7 +316,7 @@ const styles = StyleSheet.create({
     padding: spacing.xs,
     marginHorizontal: spacing.xl,
     marginBottom: spacing.base,
-    borderRadius: borderRadius.lg,
+    borderRadius: borderRadius['2xl'],
   },
   tabButton: {
     flex: 1,

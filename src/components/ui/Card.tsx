@@ -61,7 +61,7 @@ export function Card({
 const styles = StyleSheet.create({
   base: {
     backgroundColor: colors.surface,
-    borderRadius: borderRadius.lg,
+    borderRadius: borderRadius['2xl'],
     overflow: 'hidden',
   },
   outlined: {
